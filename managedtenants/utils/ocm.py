@@ -81,7 +81,7 @@ class OcmCli:
     UNSUPPORTED_FIELDS_CS = ["metrics_federation", "monitoring_stack"]
 
     # TODO: pop 'metrics_federation' from this list after this MR - https://gitlab.cee.redhat.com/ocm/ocm-addons-service/-/merge_requests/183 - is merged and propagated to the fleet
-    UNSUPPORTED_FIELDS_AS = ["metrics_federation"]
+    UNSUPPORTED_FIELDS_AS = ["metrics_federation", "package_image"]
 
     def __init__(
         self,

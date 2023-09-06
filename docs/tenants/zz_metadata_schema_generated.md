@@ -55,23 +55,23 @@
 
     - **`image`** *(string)*: Url of the additional catalog source image.
 
-- **`namespaceLabels`** *(object)*: Labels to be applied on all listed namespaces.
+- **`namespaceLabels`** *(object)*: Labels to be applied on all listed namespaces. Cannot contain additional properties.
 
-  - **Items** *(string)*
+  - **`^[A-Za-z0-9-_./]+$`** *(string)*
 
-- **`namespaceAnnotations`** *(object)*: Annotations to be applied on all listed namespaces.
+- **`namespaceAnnotations`** *(object)*: Annotations to be applied on all listed namespaces. Cannot contain additional properties.
 
-  - **Items** *(string)*
+  - **`^[A-Za-z0-9-_./]+$`** *(string)*
 
-- **`commonLabels`** *(object)*: Labels to be applied to all objects created in the SelectorSyncSet.
+- **`commonLabels`** *(object)*: Labels to be applied to all objects created in the SelectorSyncSet. Cannot contain additional properties.
 
-  - **Items** *(string)*
+  - **`^[A-Za-z0-9-_./]+$`** *(string)*
 
-- **`commonAnnotations`** *(object)*: Annotations to be applied to all objects created in the SelectorSyncSet.
+- **`commonAnnotations`** *(object)*: Annotations to be applied to all objects created in the SelectorSyncSet. Cannot contain additional properties.
 
-  - **Items** *(string)*
+  - **`^[A-Za-z0-9-_./]+$`** *(string)*
 
-- **`monitoring`** *(object)*: Configuration parameters to be injected in the ServiceMonitor used for federation. The target prometheus server found by matchLabels needs to serve service-ca signed TLS traffic (https://docs.openshift.com/container-platform/4.6/security/certificate_types_descriptions/service-ca-certificates.html), and it needs to be runing inside the monitoring.namespace, with the service name 'prometheus'. Cannot contain additional properties.
+- **`monitoring`** *(object)*: [DEPRECATED] Configuration parameters to be injected in the ServiceMonitor used for federation. The target prometheus server found by matchLabels needs to serve service-ca signed TLS traffic (https://docs.openshift.com/container-platform/4.6/security/certificate_types_descriptions/service-ca-certificates.html), and it needs to be runing inside the monitoring.namespace, with the service name 'prometheus'. Cannot contain additional properties.
 
   - **`portName`** *(string)*: The name of the service port fronting the prometheus server.
 
@@ -81,9 +81,41 @@
 
     - **Items** *(string)*
 
-  - **`matchLabels`** *(object)*: List of labels used to discover the prometheus server(s) to be federated.
+  - **`matchLabels`** *(object)*: List of labels used to discover the prometheus server(s) to be federated. Cannot contain additional properties.
+
+    - **`^[A-Za-z0-9-_./]+$`** *(string)*
+
+- **`metricsFederation`** *(object)*: Configuration parameters to be injected in the ServiceMonitor used for federation. The target prometheus server found by matchLabels needs to serve service-ca signed TLS traffic (https://docs.openshift.com/container-platform/4.6/security/certificate_types_descriptions/service-ca-certificates.html), and it needs to be runing inside the monitoring.namespace, with the service name 'prometheus'. Cannot contain additional properties.
+
+  - **`portName`** *(string)*: The name of the service port fronting the prometheus server.
+
+  - **`namespace`** *(string)*: Namespace where the prometheus server is running.
+
+  - **`matchNames`** *(array)*: List of series names to federate from the prometheus server.
 
     - **Items** *(string)*
+
+  - **`matchLabels`** *(object)*: List of labels used to discover the prometheus server(s) to be federated. Cannot contain additional properties.
+
+    - **`^[A-Za-z0-9-_./]+$`** *(string)*
+
+- **`monitoringStack`** *(object)*: Configuration parameters which will determine the underlying configuration of the MonitoringStack CR which will be created in runtime whenever the respective addon would be installed. Cannot contain additional properties.
+
+  - **`enabled`** *(boolean)*: This denotes whether the addon requires the MonitoringStack CR to be created in runtime or not. Validation fails if it is provided as 'false' and at the same time other parameters are specified.
+
+  - **`resources`** *(object)*: Represents the resource quotas (requests/limits) to be allocated to the Prometheus instances which will be spun up consequently by the respective MonitoringStack CR in runtime. If not provided, the default values would be used: '{requests: {cpu: '100m', memory: '256M'}, limits:{memory: '512M', cpu: '500m'}}'. Cannot contain additional properties.
+
+    - **`requests`** *(object)*: Represents the cpu/memory resources which would be requested by the Prometheus instances spun up consequently by the MonitoringStack CR in runtime. Cannot contain additional properties.
+
+      - **`cpu`** *(string)*
+
+      - **`memory`** *(string)*
+
+    - **`limits`** *(object)*: Represents the max. amount of cpu/memory resources which would be accessible by the Prometheus instances spun up consequently by the MonitoringStack CR in runtime. Cannot contain additional properties.
+
+      - **`cpu`** *(string)*
+
+      - **`memory`** *(string)*
 
 - **`defaultChannel`** *(string)*: OLM channel from which to install the addon-operator. Must be one of: `['alpha', 'beta', 'stable', 'edge', 'rc', 'fast', 'candidate']`.
 
